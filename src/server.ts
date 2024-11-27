@@ -1,19 +1,14 @@
 import fastify from 'fastify'
-import { knex } from './database'
-import crypto from 'node:crypto'
+import cookie from "@fastify/cookie"
+import { transactionsRoutes } from './routes/transactions'
 
 const app = fastify()
 
-app.get('/hello', async () => {
-  const transactions = await knex('transactions')
-    .insert({
-      id: crypto.randomUUID(),
-      title: 'Transação test',
-      amount: 1500,
-    })
-    .returning('*')
+app.register(cookie)
 
-  return transactions
+// todas as rotas que cairem nesse plugin ja vai ter o prefixo transaction pré definido
+app.register(transactionsRoutes, {
+  prefix: "transactions"
 })
 
 app
