@@ -1,19 +1,9 @@
-import fastify from 'fastify'
-import cookie from "@fastify/cookie"
-import { transactionsRoutes } from './routes/transactions'
-
-const app = fastify()
-
-app.register(cookie)
-
-// todas as rotas que cairem nesse plugin ja vai ter o prefixo transaction pré definido
-app.register(transactionsRoutes, {
-  prefix: "transactions"
-})
+import {app} from "./app"
+import {env} from "./env"
 
 app
   .listen({
-    port: 3333,
+    port: env.PORT,
   })
   .then(() => {
     console.log('HTTP Server Running!')
